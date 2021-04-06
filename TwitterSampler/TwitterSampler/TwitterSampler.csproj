@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.3.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.3.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.3.1" />
+		<PackageReference Include="TweetinviAPI" Version="5.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Resources\" />
+		<Folder Include="Models\" />
+		<Folder Include="Services\" />
+		<Folder Include="Interfaces\" />
+		<Folder Include="Models\Data\" />
+		<Folder Include="Models\Dto\" />
+		<Folder Include="Data\" />
+		<Folder Include="Data\Commands\" />
+		<Folder Include="Data\Queries\" />
+		<Folder Include="Data\Interfaces\" />
+		<Folder Include="Data\Queries\Repositories\" />
+		<Folder Include="Data\Commands\Repositories\" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources/emoji.json" />
+	</ItemGroup>
+</Project>
