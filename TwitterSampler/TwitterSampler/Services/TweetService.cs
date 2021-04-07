@@ -154,7 +154,7 @@ namespace TwitterSampler.Services
 
             if (urls != null && urls.Count() > 0)
             {
-                parsedUrls = string.Join(",", urls.Select(u => u.Url));
+                parsedUrls = string.Join(",", urls.Select(u => u.DisplayUrl));
             }
 
             return parsedUrls;
