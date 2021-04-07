@@ -60,26 +60,7 @@ namespace TwitterSampler.Services
 
         public async Task<TryGetResult<string>> PercentOfTweetsWithEmojis()
         {
-            var output = string.Empty;
-            var result = new TryGetResult<string>(output);
-
-            var emojiResponse = await _emojiQueries.GetDistinctReferenceCount();
-            var tweetResponse = await _tweetQueries.GetTotalNumberOfTweets();
-
-            if (emojiResponse.Success && tweetResponse.Success)
-            {
-                var percentage = (emojiResponse.Result / tweetResponse.Result);
-                output = percentage.ToString("P", _numberFormat);
-            }
-            else
-            {
-                if (!emojiResponse.Success)
-                    result = new TryGetResult<string>(emojiResponse.Exception);
-                if (!tweetResponse.Success)
-                    result = new TryGetResult<string>(tweetResponse.Exception);
-            }
-
-            return result;
+            return await _tweetQueries.PercentOfTweetsWithEmojis();
         }
 
         public async Task<TryGetResult<string>> PercentOfTweetsWithPhotos()
@@ -95,7 +76,7 @@ namespace TwitterSampler.Services
         public async Task<TryGetResult<string>> GetTopEmojisInTweets()
         {
             var output = string.Empty;
-            var result = new TryGetResult<string>(output);
+            var result = default(TryGetResult<string>);
 
             var response = await _emojiQueries.GetTopEmojis();
 
@@ -104,6 +85,7 @@ namespace TwitterSampler.Services
                 try
                 {
                     output = JsonSerializer.Serialize(response.Result);
+                    result = new TryGetResult<string>(output);
                 }
                 catch (Exception ex)
                 {
@@ -119,7 +101,7 @@ namespace TwitterSampler.Services
         public async Task<TryGetResult<string>> GetTopHashTagsInTweets()
         {
             var output = string.Empty;
-            var result = new TryGetResult<string>(output);
+            var result = default(TryGetResult<string>);
 
             var response = await _hashTagQueries.GetTopHashTags();
 
@@ -128,6 +110,7 @@ namespace TwitterSampler.Services
                 try
                 {
                     output = JsonSerializer.Serialize(response.Result);
+                    result = new TryGetResult<string>(output);
                 }
                 catch (Exception ex)
                 {
@@ -143,7 +126,7 @@ namespace TwitterSampler.Services
         public async Task<TryGetResult<string>> GetTopUrlsInTweets()
         {
             var output = string.Empty;
-            var result = new TryGetResult<string>(output);
+            var result = default(TryGetResult<string>);
 
             var response = await _urlQueries.GetTopUrls();
 
@@ -152,6 +135,7 @@ namespace TwitterSampler.Services
                 try
                 {
                     output = JsonSerializer.Serialize(response.Result);
+                    result = new TryGetResult<string>(output);
                 }
                 catch (Exception ex)
                 {

@@ -26,11 +26,12 @@ namespace TwitterSampler.Data.Queries
         public async Task<TryGetResult<List<ItemCountDto>>> GetTopUrls()
         {
             var urls = new List<ItemCountDto>();
-            var result = new TryGetResult<List<ItemCountDto>>(urls);
+            var result = default(TryGetResult<List<ItemCountDto>>);
 
             try
             {
                 urls = await _urlQueriesRepository.GetTopUrls();
+                result = new TryGetResult<List<ItemCountDto>>(urls);
             }
             catch (Exception ex)
             {

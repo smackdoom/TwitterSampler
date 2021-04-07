@@ -20,13 +20,13 @@ namespace TwitterSampler.Data.Commands.Repositories
         #region Public Methods
         public async Task AddUrl(Url url)
         {
-            DatabaseContext.Add(url);
+            DatabaseContext.Url.Add(url);
             await DatabaseContext.SaveChangesAsync();
         }
 
         public async Task AddUrls(List<Url> urls)
         {
-            urls.ForEach(e => DatabaseContext.Add(e));
+            urls.ForEach(e => DatabaseContext.Url.Add(e));
             await DatabaseContext.SaveChangesAsync();
         }
         #endregion

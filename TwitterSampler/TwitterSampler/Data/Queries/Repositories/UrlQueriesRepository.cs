@@ -22,7 +22,7 @@ namespace TwitterSampler.Data.Queries.Repositories
         public async Task<List<ItemCountDto>> GetTopUrls()
         {
             var topUrls = await DatabaseContext.Url
-                .GroupBy(e => e.Value)
+                .GroupBy(e => e.DisplayValue)
                 .Select(e => new ItemCountDto
                 {
                     Name = e.Key,

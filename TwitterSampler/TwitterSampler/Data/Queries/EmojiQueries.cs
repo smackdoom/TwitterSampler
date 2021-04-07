@@ -26,11 +26,12 @@ namespace TwitterSampler.Data.Queries
         public async Task<TryGetResult<List<ItemCountDto>>> GetTopEmojis()
         {
             var emojis = new List<ItemCountDto>();
-            var result = new TryGetResult<List<ItemCountDto>>(emojis);
+            var result = default(TryGetResult<List<ItemCountDto>>);
 
             try
             {
                 emojis = await _emojiQueriesRepository.GetTopEmojis();
+                result = new TryGetResult<List<ItemCountDto>>(emojis);
             }
             catch (Exception ex)
             {
@@ -43,11 +44,12 @@ namespace TwitterSampler.Data.Queries
         public async Task<TryGetResult<int>> GetDistinctReferenceCount()
         {
             var count = default(int);
-            var result = new TryGetResult<int>(count);
+            var result = default(TryGetResult<int>);
 
             try
             {
                 count = await _emojiQueriesRepository.GetDistinctReferenceCount();
+                result = new TryGetResult<int>(count);
             }
             catch (Exception ex)
             {

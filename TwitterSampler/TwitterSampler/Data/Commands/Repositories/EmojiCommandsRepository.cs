@@ -29,7 +29,7 @@ namespace TwitterSampler.Data.Commands.Repositories
         /// <returns></returns>
         public async Task AddEmoji(Emoji emoji)
         {
-            DatabaseContext.Add(emoji);
+            DatabaseContext.Emoji.Add(emoji);
             await DatabaseContext.SaveChangesAsync();
         }
 
@@ -40,7 +40,7 @@ namespace TwitterSampler.Data.Commands.Repositories
         /// <returns></returns>
         public async Task AddEmojis(List<Emoji> emojis)
         {
-            emojis.ForEach(e => DatabaseContext.Add(e));
+            emojis.ForEach(e => DatabaseContext.Emoji.Add(e));
             await DatabaseContext.SaveChangesAsync();
         }
 

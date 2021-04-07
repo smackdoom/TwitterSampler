@@ -121,7 +121,7 @@ namespace TwitterSampler.Services
                 {
                     urls.Add(new Url()
                     {
-                        Value = u.Url,
+                        Value = u.ExpandedUrl,
                         ReferenceId = tweet.Id,
                         DisplayValue = u.DisplayUrl
                     });

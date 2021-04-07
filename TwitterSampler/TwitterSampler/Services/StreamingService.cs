@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Tweetinvi;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.V2;
 using TwitterSampler.Data;
@@ -84,9 +85,13 @@ namespace TwitterSampler.Services
 
                 _logger.LogInformation("Streaming service stopping.");
             }
+            catch (TwitterException ex)
+            {
+                _logger.LogError("Received a Twitter Exception and exiting.", ex);
+            }
             catch (Exception ex)
             {
-                throw ex;
+                _logger.LogError("Received a General Exception and exiting.", ex);
             }
         }
         #endregion

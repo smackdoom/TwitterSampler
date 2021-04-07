@@ -29,7 +29,7 @@ namespace TwitterSampler.Data.Commands.Repositories
         {
             try
             {
-                DatabaseContext.Add(tweet);
+                DatabaseContext.Tweet.Add(tweet);
                 await DatabaseContext.SaveChangesAsync();
             }
             catch (Exception ex)

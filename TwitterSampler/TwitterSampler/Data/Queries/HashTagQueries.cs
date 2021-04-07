@@ -26,11 +26,12 @@ namespace TwitterSampler.Data.Queries
         public async Task<TryGetResult<List<ItemCountDto>>> GetTopHashTags()
         {
             var hashTags = new List<ItemCountDto>();
-            var result = new TryGetResult<List<ItemCountDto>>(hashTags);
+            var result = default(TryGetResult<List<ItemCountDto>>);
 
             try
             {
                 hashTags = await _hashTagQueriesRepository.GetTopHashTags();
+                result = new TryGetResult<List<ItemCountDto>>(hashTags);
             }
             catch (Exception ex)
             {

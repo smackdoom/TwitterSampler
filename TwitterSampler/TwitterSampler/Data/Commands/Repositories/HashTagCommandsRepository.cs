@@ -20,13 +20,13 @@ namespace TwitterSampler.Data.Commands.Repositories
         #region Public Methods
         public async Task AddHashTag(HashTag hashTag)
         {
-            DatabaseContext.Add(hashTag);
+            DatabaseContext.HashTag.Add(hashTag);
             await DatabaseContext.SaveChangesAsync();
         }
 
         public async Task AddHashTags(List<HashTag> hashTags)
         {
-            hashTags.ForEach(e => DatabaseContext.Add(e));
+            hashTags.ForEach(e => DatabaseContext.HashTag.Add(e));
             await DatabaseContext.SaveChangesAsync();
         }
 
