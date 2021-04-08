@@ -1,6 +1,6 @@
 # TwitterSampler
 
-A sample Twitter Application used for streaming Tweets and gather statistics.
+A sample Twitter Application used for streaming Tweets and gathering statistics.
 
 ## Application Setup
 
