@@ -1,36 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TwitterSampler.Data.Interfaces;
 using TwitterSampler.Models;
 using TwitterSampler.Models.Dto;
 
 namespace TwitterSampler.Data.Queries
 {
-    public class HashTagQueries : IHashTagQueries
+    public class HashTagQueries
+        : BaseQueries<TwitterDbContext>, IHashTagQueries
     {
-        #region Private Members
-        private readonly IHashTagQueriesRepository _hashTagQueriesRepository;
-
-        #endregion
-
         #region Constructors
-        public HashTagQueries(IHashTagQueriesRepository hashTagQueriesRepository)
-        {
-            _hashTagQueriesRepository = hashTagQueriesRepository;
-        }
+        public HashTagQueries(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
         #endregion
 
         #region Public Methods
         public async Task<TryGetResult<List<ItemCountDto>>> GetTopHashTags()
         {
-            var hashTags = new List<ItemCountDto>();
             var result = default(TryGetResult<List<ItemCountDto>>);
 
             try
             {
-                hashTags = await _hashTagQueriesRepository.GetTopHashTags();
+                var hashTags = await DatabaseContext.HashTag
+                .GroupBy(e => e.Value)
+                .Select(e => new ItemCountDto
+                {
+                    Name = e.Key,
+                    Count = e.Count()
+                })
+                .OrderByDescending(e => e.Count)
+                .ToListAsync();
+
                 result = new TryGetResult<List<ItemCountDto>>(hashTags);
             }
             catch (Exception ex)

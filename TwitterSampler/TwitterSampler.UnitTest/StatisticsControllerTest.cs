@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using TwitterSampler.Controllers;
 using TwitterSampler.Data;
 using TwitterSampler.Data.Queries;
-using TwitterSampler.Data.Queries.Repositories;
 using TwitterSampler.Models.Data;
 using TwitterSampler.Services;
 using Xunit;
@@ -443,16 +442,11 @@ namespace TwitterSampler.UnitTest
 
         private static StatisticsController GenerateStatisticsController(TwitterDbContext databaseContext)
         {
-            //repos
-            var emojiQueriesRepository = new EmojiQueriesRepository(databaseContext);
-            var hashTagsQueriesRepository = new HashTagQueriesRepository(databaseContext);
-            var tweetQueriesRepository = new TweetQueriesRepository(databaseContext);
-            var urlQueriesRepository = new UrlQueriesRepository(databaseContext);
             //queries
-            var emojiQueries = new EmojiQueries(emojiQueriesRepository);
-            var hashTagQueries = new HashTagQueries(hashTagsQueriesRepository);
-            var tweetQueries = new TweetQueries(tweetQueriesRepository);
-            var urlQueries = new UrlQueries(urlQueriesRepository);
+            var emojiQueries = new EmojiQueries(databaseContext);
+            var hashTagQueries = new HashTagQueries(databaseContext);
+            var tweetQueries = new TweetQueries(databaseContext);
+            var urlQueries = new UrlQueries(databaseContext);
             //services
             var statisticsService = new StatisticsService(NullLogger<StatisticsService>.Instance, emojiQueries, hashTagQueries, tweetQueries, urlQueries);
             //make it so

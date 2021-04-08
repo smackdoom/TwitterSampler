@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace TwitterSampler.Data.Commands.Repositories
+namespace TwitterSampler.Data.Queries
 {
-    public class BaseCommandsRepository<T>
+    public abstract class BaseQueries<T>
         where T : DbContext
     {
         protected readonly T DatabaseContext;
 
-        public BaseCommandsRepository(T databaseContext)
+        public BaseQueries(T databaseContext)
         {
             DatabaseContext = databaseContext;
         }

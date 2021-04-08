@@ -1,22 +1,19 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TwitterSampler.Data.Interfaces;
 using TwitterSampler.Models;
 
 namespace TwitterSampler.Data.Queries
 {
-    public class TweetQueries : ITweetQueries
+    public class TweetQueries
+        : BaseQueries<TwitterDbContext>, ITweetQueries
     {
-        #region Private Members
-        private readonly ITweetQueriesRepository _tweetQueriesRepository;
-
-        #endregion
-
         #region Constructors
-        public TweetQueries(ITweetQueriesRepository tweetQueriesRepository)
-        {
-            _tweetQueriesRepository = tweetQueriesRepository;
-        }
+        public TweetQueries(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
         #endregion
 
@@ -27,12 +24,11 @@ namespace TwitterSampler.Data.Queries
         /// <returns></returns>
         public async Task<TryGetResult<int>> GetTotalNumberOfTweets()
         {
-            var total = default(int);
             var result = default(TryGetResult<int>);
 
             try
             {
-                total = await _tweetQueriesRepository.GetTotalNumberOfTweets();
+                var total = await DatabaseContext.Tweet.CountAsync();
                 result = new TryGetResult<int>(total);
             }
             catch (Exception ex)
@@ -49,12 +45,14 @@ namespace TwitterSampler.Data.Queries
         /// <returns></returns>
         public async Task<TryGetResult<double>> GetAverageTweetsPerHour()
         {
-            var average = default(double);
             var result = default(TryGetResult<double>);
 
             try
             {
-                average = await _tweetQueriesRepository.GetAverageTweetsPerHour();
+                var average = await DatabaseContext.Tweet.GroupBy(item => item.CreatedAt.Hour,
+                    (key, group) => new { Hour = key, Count = group.Count() })
+                .AverageAsync(i => i.Count);
+
                 result = new TryGetResult<double>(average);
             }
             catch (Exception ex)
@@ -71,12 +69,14 @@ namespace TwitterSampler.Data.Queries
         /// <returns></returns>
         public async Task<TryGetResult<double>> GetAverageTweetsPerMinute()
         {
-            var average = default(double);
             var result = default(TryGetResult<double>);
 
             try
             {
-                average = await _tweetQueriesRepository.GetAverageTweetsPerMinute();
+                var average = await DatabaseContext.Tweet.GroupBy(item => item.CreatedAt.Minute,
+                    (key, group) => new { Hour = key, Count = group.Count() })
+                .AverageAsync(i => i.Count);
+
                 result = new TryGetResult<double>(average);
             }
             catch (Exception ex)
@@ -93,12 +93,14 @@ namespace TwitterSampler.Data.Queries
         /// <returns></returns>
         public async Task<TryGetResult<double>> GetAverageTweetsPerSecond()
         {
-            var average = default(double);
             var result = default(TryGetResult<double>);
 
             try
             {
-                average = await _tweetQueriesRepository.GetAverageTweetsPerSecond();
+                var average = await DatabaseContext.Tweet.GroupBy(item => item.CreatedAt.Second,
+                        (key, group) => new { Hour = key, Count = group.Count() })
+                    .AverageAsync(i => i.Count);
+
                 result = new TryGetResult<double>(average);
             }
             catch (Exception ex)
@@ -115,13 +117,14 @@ namespace TwitterSampler.Data.Queries
         /// <returns></returns>
         public async Task<TryGetResult<string>> PercentOfTweetsWithEmojis()
         {
-            var formattedPercentage = "0.0%";
             var result = default(TryGetResult<string>);
 
             try
             {
-                var percentage = await _tweetQueriesRepository.PercentOfTweetsWithEmojis();
-                formattedPercentage = string.Format("{0:0%}", percentage);
+                var tweets = await DatabaseContext.Tweet.Select(t => new { Id = t.TweetId, HasEmojis = t.HasEmojis }).ToListAsync();
+                var percentage = (double)tweets.Where(t => t.HasEmojis).Count() / tweets.Count();
+                var formattedPercentage = string.Format("{0:0%}", percentage);
+
                 result = new TryGetResult<string>(formattedPercentage);
             }
             catch (Exception ex)
@@ -138,13 +141,14 @@ namespace TwitterSampler.Data.Queries
         /// <returns></returns>
         public async Task<TryGetResult<string>> PercentOfTweetsWithPhotos()
         {
-            var formattedPercentage = "0.0%";
             var result = default(TryGetResult<string>);
 
             try
             {
-                var percentage = await _tweetQueriesRepository.PercentOfTweetsWithPhotos();
-                formattedPercentage = string.Format("{0:0%}", percentage);
+                var tweets = await DatabaseContext.Tweet.Select(t => new { Id = t.TweetId, HasPhotos = t.HasPhotos }).ToListAsync();
+                var percentage = (double)tweets.Where(t => t.HasPhotos).Count() / tweets.Count();
+                var formattedPercentage = string.Format("{0:0%}", percentage);
+
                 result = new TryGetResult<string>(formattedPercentage);
             }
             catch (Exception ex)
@@ -161,13 +165,14 @@ namespace TwitterSampler.Data.Queries
         /// <returns></returns>
         public async Task<TryGetResult<string>> PercentOfTweetsWithUrl()
         {
-            var formattedPercentage = "0.0%";
             var result = default(TryGetResult<string>);
 
             try
             {
-                var percentage = await _tweetQueriesRepository.PercentOfTweetsWithUrl();
-                formattedPercentage = string.Format("{0:0%}", percentage);
+                var tweets = await DatabaseContext.Tweet.Select(t => new { Id = t.TweetId, HasUrls = t.HasUrls }).ToListAsync();
+                var percentage = (double)tweets.Where(t => t.HasUrls).Count() / tweets.Count();
+                var formattedPercentage = string.Format("{0:0%}", percentage);
+
                 result = new TryGetResult<string>(formattedPercentage);
             }
             catch (Exception ex)

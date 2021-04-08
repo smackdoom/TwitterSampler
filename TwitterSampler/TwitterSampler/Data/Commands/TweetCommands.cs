@@ -5,18 +5,30 @@ using TwitterSampler.Models.Data;
 
 namespace TwitterSampler.Data.Commands
 {
-    public class TweetCommands : ITweetCommands
+    public class TweetCommands
+        : BaseCommands<TwitterDbContext>, ITweetCommands
     {
-        private readonly ITweetCommandsRepository _tweetCommandsRepository;
+        #region Constructors
+        public TweetCommands(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
-        public TweetCommands(ITweetCommandsRepository tweetCommandsRepository)
-        {
-            _tweetCommandsRepository = tweetCommandsRepository;
-        }
+        #endregion
 
+        #region Public Methods
         public async Task AddTweet(Tweet tweet)
         {
-            await _tweetCommandsRepository.AddTweet(tweet);
+            try
+            {
+                DatabaseContext.Tweet.Add(tweet);
+                await DatabaseContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
+        #endregion
     }
 }

@@ -6,26 +6,29 @@ using TwitterSampler.Models.Data;
 
 namespace TwitterSampler.Data.Commands
 {
-    public class UrlCommands : IUrlCommands
+    public class UrlCommands
+        : BaseCommands<TwitterDbContext>, IUrlCommands
     {
-        #region Private Members
-        private readonly IUrlCommandsRepository _urlCommandsRepository;
+        #region Constructors
+        public UrlCommands(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
         #endregion
 
-        public UrlCommands(IUrlCommandsRepository urlCommandsRepository)
-        {
-            _urlCommandsRepository = urlCommandsRepository;
-        }
-
+        #region Public Methods
         public async Task AddUrl(Url url)
         {
-            await _urlCommandsRepository.AddUrl(url);
+            DatabaseContext.Url.Add(url);
+            await DatabaseContext.SaveChangesAsync();
         }
 
         public async Task AddUrls(List<Url> urls)
         {
-            await _urlCommandsRepository.AddUrls(urls);
+            urls.ForEach(e => DatabaseContext.Url.Add(e));
+            await DatabaseContext.SaveChangesAsync();
         }
+
+        #endregion
     }
 }

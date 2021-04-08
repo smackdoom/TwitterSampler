@@ -22,8 +22,6 @@
 		<Folder Include="Data\Commands\" />
 		<Folder Include="Data\Queries\" />
 		<Folder Include="Data\Interfaces\" />
-		<Folder Include="Data\Queries\Repositories\" />
-		<Folder Include="Data\Commands\Repositories\" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="Resources/emoji.json" />

@@ -9,6 +9,6 @@ namespace TwitterSampler.Data.Interfaces
     public interface IUrlQueries
     {
         Task<TryGetResult<List<ItemCountDto>>> GetTopUrls();
-        Task<int> GetDistinctReferenceCount();
+        //Task<int> GetDistinctReferenceCount();
     }
 }

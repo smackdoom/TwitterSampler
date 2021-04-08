@@ -6,23 +6,29 @@ using TwitterSampler.Models.Data;
 
 namespace TwitterSampler.Data.Commands
 {
-    public class EmojiCommands : IEmojiCommands
+    public class EmojiCommands
+        : BaseCommands<TwitterDbContext>, IEmojiCommands
     {
-        private readonly IEmojiCommandsRepository _emojiCommandsRepository;
+        #region Constructors
+        public EmojiCommands(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
-        public EmojiCommands(IEmojiCommandsRepository tweetCommandsRepository)
-        {
-            _emojiCommandsRepository = tweetCommandsRepository;
-        }
+        #endregion
 
+        #region Public Methods
         public async Task AddEmoji(Emoji emoji)
         {
-            await _emojiCommandsRepository.AddEmoji(emoji);
+            DatabaseContext.Emoji.Add(emoji);
+            await DatabaseContext.SaveChangesAsync();
         }
 
         public async Task AddEmojis(List<Emoji> emojis)
         {
-            await _emojiCommandsRepository.AddEmojis(emojis);
+            emojis.ForEach(e => DatabaseContext.Emoji.Add(e));
+            await DatabaseContext.SaveChangesAsync();
         }
+
+        #endregion
     }
 }

@@ -6,23 +6,29 @@ using TwitterSampler.Models.Data;
 
 namespace TwitterSampler.Data.Commands
 {
-    public class HashTagCommands : IHashTagCommands
+    public class HashTagCommands
+        : BaseCommands<TwitterDbContext>, IHashTagCommands
     {
-        private readonly IHashTagCommandsRepository _hashTagCommandsRepository;
+        #region Constructors
+        public HashTagCommands(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
-        public HashTagCommands(IHashTagCommandsRepository hashTagCommandsRepository)
-        {
-            _hashTagCommandsRepository = hashTagCommandsRepository;
-        }
+        #endregion
 
+        #region Public Methods
         public async Task AddHashTag(HashTag hashTag)
         {
-            await _hashTagCommandsRepository.AddHashTag(hashTag);
+            DatabaseContext.HashTag.Add(hashTag);
+            await DatabaseContext.SaveChangesAsync();
         }
 
         public async Task AddHashTags(List<HashTag> hashTags)
         {
-            await _hashTagCommandsRepository.AddHashTags(hashTags);
+            hashTags.ForEach(e => DatabaseContext.HashTag.Add(e));
+            await DatabaseContext.SaveChangesAsync();
         }
+
+        #endregion
     }
 }

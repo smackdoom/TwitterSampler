@@ -13,6 +13,16 @@ namespace TwitterSampler.Services
         #region Private Members
         private readonly ILogger<EmojiService> _logger;
         private readonly IUrlCommands _urlCommands;
+
+        public readonly HashSet<string> _photoUrls = new HashSet<string>()
+        {
+            "pic.twitter.com",
+            "instagram"
+        };
+        #endregion
+
+        #region Properties
+        public HashSet<string> PhotoUrls => _photoUrls;
         #endregion
 
         #region Constructors

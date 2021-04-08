@@ -1,36 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TwitterSampler.Data.Interfaces;
 using TwitterSampler.Models;
 using TwitterSampler.Models.Dto;
 
 namespace TwitterSampler.Data.Queries
 {
-    public class EmojiQueries : IEmojiQueries
+    public class EmojiQueries
+        : BaseQueries<TwitterDbContext>, IEmojiQueries
     {
-        #region Private Members
-        private readonly IEmojiQueriesRepository _emojiQueriesRepository;
-
-        #endregion
-
         #region Constructors
-        public EmojiQueries(IEmojiQueriesRepository emojiQueriesRepository)
-        {
-            _emojiQueriesRepository = emojiQueriesRepository;
-        }
+        public EmojiQueries(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
         #endregion
 
         #region Public Methods
         public async Task<TryGetResult<List<ItemCountDto>>> GetTopEmojis()
         {
-            var emojis = new List<ItemCountDto>();
             var result = default(TryGetResult<List<ItemCountDto>>);
 
             try
             {
-                emojis = await _emojiQueriesRepository.GetTopEmojis();
+                var emojis = await DatabaseContext.Emoji
+                .GroupBy(e => e.ShortName)
+                .Select(e => new ItemCountDto
+                {
+                    Name = e.Key,
+                    Count = e.Count()
+                })
+                .OrderByDescending(e => e.Count)
+                .ToListAsync();
+
                 result = new TryGetResult<List<ItemCountDto>>(emojis);
             }
             catch (Exception ex)
@@ -43,12 +48,11 @@ namespace TwitterSampler.Data.Queries
 
         public async Task<TryGetResult<int>> GetDistinctReferenceCount()
         {
-            var count = default(int);
             var result = default(TryGetResult<int>);
 
             try
             {
-                count = await _emojiQueriesRepository.GetDistinctReferenceCount();
+                var count = await DatabaseContext.Emoji.Select(e => e.ReferenceId).Distinct().CountAsync();
                 result = new TryGetResult<int>(count);
             }
             catch (Exception ex)

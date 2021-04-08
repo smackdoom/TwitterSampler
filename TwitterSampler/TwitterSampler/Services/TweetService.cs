@@ -141,7 +141,7 @@ namespace TwitterSampler.Services
             if (!string.IsNullOrEmpty(urls))
             {
                 var parsedUrls = urls.Split(",").ToList();
-                hasPhotos = parsedUrls.Any(u => Constants.PhotoUrls.Contains(u.ToLower()));
+                hasPhotos = _urlService.PhotoUrls.Where(pu => parsedUrls.Any(u => u.ToLower().Contains(pu))).Any();
             }
 
             return hasPhotos;

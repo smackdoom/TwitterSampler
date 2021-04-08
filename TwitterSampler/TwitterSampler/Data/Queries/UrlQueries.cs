@@ -1,36 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TwitterSampler.Data.Interfaces;
 using TwitterSampler.Models;
 using TwitterSampler.Models.Dto;
 
 namespace TwitterSampler.Data.Queries
 {
-    public class UrlQueries : IUrlQueries
+    public class UrlQueries
+        : BaseQueries<TwitterDbContext>, IUrlQueries
     {
-        #region Private Members
-        private readonly IUrlQueriesRepository _urlQueriesRepository;
-
-        #endregion
-
         #region Constructors
-        public UrlQueries(IUrlQueriesRepository urlQueriesRepository)
-        {
-            _urlQueriesRepository = urlQueriesRepository;
-        }
+        public UrlQueries(TwitterDbContext databaseContext)
+            : base(databaseContext)
+        { }
 
         #endregion
 
         #region Public Methods
         public async Task<TryGetResult<List<ItemCountDto>>> GetTopUrls()
         {
-            var urls = new List<ItemCountDto>();
             var result = default(TryGetResult<List<ItemCountDto>>);
 
             try
             {
-                urls = await _urlQueriesRepository.GetTopUrls();
+                var urls = await DatabaseContext.Url
+                .GroupBy(e => e.DisplayValue)
+                .Select(e => new ItemCountDto
+                {
+                    Name = e.Key,
+                    Count = e.Count()
+                })
+                .OrderByDescending(e => e.Count)
+                .ToListAsync();
+
                 result = new TryGetResult<List<ItemCountDto>>(urls);
             }
             catch (Exception ex)
@@ -39,12 +44,6 @@ namespace TwitterSampler.Data.Queries
             }
 
             return result;
-        }
-
-        public async Task<int> GetDistinctReferenceCount()
-        {
-            var count = await _urlQueriesRepository.GetDistinctReferenceCount();
-            return count;
         }
         #endregion
     }
