@@ -64,7 +64,7 @@ namespace TwitterSampler.Controllers
         /// Gets the average number of tweets per minute
         /// </summary>
         /// <returns></returns>
-        [HttpGet("AverageNumberOfTweetsPerMinute")]
+        [HttpGet("averagenumberoftweetsperminute")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> AverageNumberOfTweetsPerMinute()
@@ -81,7 +81,7 @@ namespace TwitterSampler.Controllers
         /// Gets the average number of tweets per second
         /// </summary>
         /// <returns></returns>
-        [HttpGet("AverageNumberOfTweetsPerSecond")]
+        [HttpGet("averagenumberoftweetspersecond")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> AverageNumberOfTweetsPerSecond()
@@ -98,7 +98,7 @@ namespace TwitterSampler.Controllers
         /// Gets the top emojis in all tweets
         /// </summary>
         /// <returns></returns>
-        [HttpGet("TopEmojisInTweets")]
+        [HttpGet("topemojisintweets")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> TopEmojisInTweets()
@@ -115,7 +115,7 @@ namespace TwitterSampler.Controllers
         /// Gets the percentage of tweets that have emojis
         /// </summary>
         /// <returns></returns>
-        [HttpGet("PercentageOfTweetsWithEmojis")]
+        [HttpGet("percentageoftweetswithemojis")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> PercentageOfTweetsWithEmojis()
@@ -132,7 +132,7 @@ namespace TwitterSampler.Controllers
         /// Gets the percentage of tweets with urls
         /// </summary>
         /// <returns></returns>
-        [HttpGet("PercentageOfTweetsWithUrls")]
+        [HttpGet("percentageoftweetswithurls")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> PercentageOfTweetsWithUrls()
@@ -149,7 +149,7 @@ namespace TwitterSampler.Controllers
         /// Gets the percentage of tweets with photos
         /// </summary>
         /// <returns></returns>
-        [HttpGet("PercentageOfTweetsWithPhotos")]
+        [HttpGet("percentageoftweetswithphotos")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> PercentageOfTweetsWithPhotos()
@@ -166,7 +166,7 @@ namespace TwitterSampler.Controllers
         /// Gets the top hash tags in tweets
         /// </summary>
         /// <returns></returns>
-        [HttpGet("TopHashtagInTweets")]
+        [HttpGet("tophashtagintweets")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> TopHashtagInTweets()
@@ -183,7 +183,7 @@ namespace TwitterSampler.Controllers
         /// Gets the top urls in tweets
         /// </summary>
         /// <returns></returns>
-        [HttpGet("TopUrlsInTweets")]
+        [HttpGet("topurlsintweets")]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> TopUrlsInTweets()
