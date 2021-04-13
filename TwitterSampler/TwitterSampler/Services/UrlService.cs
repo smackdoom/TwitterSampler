@@ -14,7 +14,7 @@ namespace TwitterSampler.Services
         private readonly ILogger<EmojiService> _logger;
         private readonly IUrlCommands _urlCommands;
 
-        public readonly HashSet<string> _photoUrls = new HashSet<string>()
+        private readonly HashSet<string> _photoUrls = new HashSet<string>()
         {
             "pic.twitter.com",
             "instagram"
